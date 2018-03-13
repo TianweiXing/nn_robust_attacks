@@ -56,7 +56,7 @@ def get_traversed(graph = None):
     #Get the graph and graph traversal
     graph = tf.get_default_graph() if graph is None else graph
     graph_dict = {node.name:node for node in graph.as_graph_def().node}
-    var_dict = {v.name:v.value() for v in tf.get_collection(tf.GraphKeys.VARIABLES)}
+    var_dict = {v.name:v.value() for v in tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES)}
     return traverse(graph_dict["absolute_output"], [], graph_dict), graph, graph_dict, var_dict
 
 
@@ -164,12 +164,11 @@ def visualize(im_list, xval):
             I = np.mean(np.maximum(im_list[j][i], 0), -1)
             I = np.minimum(I, np.percentile(I, 99))
             I = I/np.max(I)
-            print( "np.linalg.norm(I)", np.linalg.norm(I) )
+            print ("np.linalg.norm(I)", np.linalg.norm(I) )
             plt.imshow(I, cmap="gray")
 
         plt.show()
     return im_list
-
 
 
 
