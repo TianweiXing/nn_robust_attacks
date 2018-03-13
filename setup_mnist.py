@@ -64,28 +64,27 @@ class MNISTModel:
         self.num_channels = 1
         self.image_size = 28
         self.num_labels = 10
-
+        
+        params = [10, 25, 100]
+        
         model = Sequential()
 
-        model.add(Conv2D(32, (3, 3),
-                         input_shape=(28, 28, 1)))
+        model.add(Conv2D(params[0], (5, 5), padding='same',
+                                input_shape=(28, 28, 1) ) )
         model.add(Activation('relu'))
-        model.add(Conv2D(32, (3, 3)))
+        model.add(MaxPooling2D(pool_size=(2, 2), padding='same'))
+
+        model.add(Conv2D(params[1], (5, 5), padding='same'))
         model.add(Activation('relu'))
-        model.add(MaxPooling2D(pool_size=(2, 2)))
-        
-        model.add(Conv2D(64, (3, 3)))
+        model.add(MaxPooling2D(pool_size=(2, 2), padding='same'))
+
+        model.add(Conv2D(params[2], (4, 4), padding='same'))
         model.add(Activation('relu'))
-        model.add(Conv2D(64, (3, 3)))
-        model.add(Activation('relu'))
-        model.add(MaxPooling2D(pool_size=(2, 2)))
-        
+        model.add(MaxPooling2D(pool_size=(2, 2), padding='same'))
+
         model.add(Flatten())
-        model.add(Dense(200))
-        model.add(Activation('relu'))
-        model.add(Dense(200))
-        model.add(Activation('relu'))
         model.add(Dense(10))
+    
         model.load_weights(restore)
 
         self.model = model
